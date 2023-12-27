@@ -8,11 +8,38 @@
 </head>
 <body>
 
+    {% if request.user.is_authenticated %}
+        <h1 class="text-danger">{{ user.email }}</h1>
+        <a href="{% url 'account:account-edit' %}" class="btn btn-primary">Edit Profile</a>
+        <a href="{% url 'account:logout' %}" class="btn btn-danger">Logout</a>
+    {% else %}
+        <h1>Login</h1>
+        <form method="post" action="{% url 'account:login' %}">
+            {% csrf_token %}
+            <input type="number" name="phone_number" placeholder="phone number">
+            <input type="password" name="password" placeholder="password">
+            <button type="submit">Login</button>
+        </form>
+    {% endif %}
+
+    <br>
+    <hr><hr>
+    <br>
+
+    <h1>Create Account</h1>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+        <input type="email" name="email" placeholder="email">
+        <input type="text" name="username" placeholder="username">
+        <input type="number" name="phone_number" placeholder="Phone number">
+        <h3>Password</h3>
+        <input type="password" name="password">
         <button type="submit">Create</button>
     </form>
+
+    <br>
+    <hr><hr>
+    <br>
 
 </body>
 </html>
